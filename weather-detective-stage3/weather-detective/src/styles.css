@@ -262,7 +262,19 @@ button.clue--locked:disabled .clue__cta { color: var(--fog); }
 .learn__curr { margin: 0; font-family: var(--font-mono); font-size: 11.5px; color: var(--fog); }
 
 /* ── Case picker ──────────────────────────── */
-.picker { display: flex; gap: 8px; flex-wrap: wrap; }
+.picker-header { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.picker { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+.btn-random {
+  flex-shrink: 0; align-self: flex-start;
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  background: var(--panel); color: var(--amber);
+  border: 1px solid var(--amber); border-radius: var(--radius);
+  padding: 10px 16px; white-space: nowrap;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-random:hover { background: var(--ink-2); transform: translateY(-1px); }
+.btn-random:active { transform: translateY(0); }
+.btn-random:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 .picker__tab {
   flex: 1 1 200px;
   display: flex; flex-direction: column; gap: 3px; text-align: left;
