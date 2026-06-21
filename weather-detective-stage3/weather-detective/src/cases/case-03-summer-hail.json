@@ -1,0 +1,123 @@
+{
+  "id": "case-03-summer-hail",
+  "version": "0.1.0",
+  "dataStatus": "placeholder",
+  "meta": {
+    "title": "맑은 여름 오후에 우박?",
+    "subtitle": "더운 날 갑자기 쏟아진 얼음덩어리",
+    "difficulty": 3,
+    "targetAudience": "중학생",
+    "estimatedMinutes": 10,
+    "event": { "date": "", "region": "내륙(충청)", "phenomenon": "여름철 우박(대기 불안정)" },
+    "briefing": "초여름 맑던 오후, 갑자기 하늘이 어두워지더니 콩알만 한 우박이 쏟아졌다. 한여름을 앞둔 더운 날에 웬 얼음덩어리일까? 관측 자료를 열어 원인을 밝혀라."
+  },
+  "investigation": {
+    "maxInvestigations": 5,
+    "clues": [
+      {
+        "id": "clue-upper-air",
+        "title": "상층과 지표의 기온차",
+        "type": "upper-air",
+        "locked": false,
+        "cost": 0,
+        "summary": "지표는 한여름처럼 더운데 상공은 매우 차다. 위아래 기온차가 매우 크다.",
+        "data": { "_placeholder": true, "note": "1단계에서 레윈존데 연직 기온(1000~500hPa)으로 교체" },
+        "interpretationHint": "지표는 덥고 상층은 차면 대기가 불안정해진다. 이게 핵심."
+      },
+      {
+        "id": "clue-surface-heating",
+        "title": "지표 기온: 당일 vs 평년",
+        "type": "temp-comparison",
+        "locked": true,
+        "cost": 1,
+        "summary": "그날 오후 지표 기온이 평년보다 크게 높이 올라갔다.",
+        "data": { "_placeholder": true, "note": "1단계에서 ASOS 당일 기온 + 평년값으로 교체" },
+        "interpretationHint": "강한 지표 가열이 공기를 빠르게 데워 상승기류의 연료가 된다."
+      },
+      {
+        "id": "clue-precip",
+        "title": "강수와 우박 시각",
+        "type": "timeseries",
+        "locked": true,
+        "cost": 1,
+        "summary": "오후 한두 시간에 강한 소나기와 우박이 집중됐다.",
+        "data": { "_placeholder": true, "note": "1단계에서 ASOS 강수량 시계열로 교체" },
+        "interpretationHint": "짧고 강한 강수는 적란운(소나기구름)의 특징이다."
+      },
+      {
+        "id": "clue-instability",
+        "title": "대기 불안정 신호",
+        "type": "text",
+        "locked": true,
+        "cost": 1,
+        "summary": "지표 가열과 상층 한기로 대기가 매우 불안정한 상태였다.",
+        "data": { "body": "지표가 데워지면 따뜻한 공기가 가벼워져 위로 솟구친다. 그런데 상공이 매우 차면 올라간 공기가 식어도 주변보다 계속 따뜻해서 더 높이, 더 빠르게 상승한다. 이렇게 위아래 기온차가 클 때 대기는 '불안정'하다고 하며, 강한 상승기류와 적란운이 만들어진다." },
+        "interpretationHint": "불안정 = 강한 상승기류 = 적란운 발달의 조건이다."
+      }
+    ]
+  },
+  "hypotheses": {
+    "prompt": "더운 여름 오후에 우박이 내린 가장 큰 원인은?",
+    "options": [
+      {
+        "id": "h-instability",
+        "text": "지표의 강한 가열과 상층의 찬 공기로 대기가 불안정해져, 강한 상승기류(적란운) 속에서 우박이 자랐다.",
+        "verdict": "correct",
+        "requiredClues": ["clue-upper-air", "clue-surface-heating"],
+        "feedback": "정확하다. 위아래 큰 기온차가 강한 상승기류를 만든 것이 핵심이다."
+      },
+      {
+        "id": "h-coldwave",
+        "text": "그날 갑자기 한파가 와서 지표가 얼어 우박이 생겼다.",
+        "verdict": "misconception",
+        "requiredClues": ["clue-surface-heating"],
+        "feedback": "지표는 오히려 한여름처럼 더웠다. 얼음은 지표가 아니라 차가운 상공의 구름 속에서 만들어진다."
+      },
+      {
+        "id": "h-freeze-falling",
+        "text": "비가 내리다가 떨어지는 도중에 얼어서 우박이 됐다.",
+        "verdict": "misconception",
+        "requiredClues": ["clue-upper-air"],
+        "feedback": "우박은 떨어지다 어는 게 아니라, 적란운 속에서 상승·하강을 반복하며 얼음층이 겹겹이 쌓여 자란 것이다."
+      }
+    ]
+  },
+  "solution": {
+    "mechanism": "지표가 강하게 가열되고 상층은 매우 차서 위아래 기온차(기온감률)가 컸다. 이런 불안정한 대기에서 따뜻한 공기가 빠르게 상승해 적란운이 발달하고, 구름 속에서 얼음 알갱이가 상승·하강을 반복하며 층층이 자라 우박이 된다.",
+    "causalChain": [
+      "지표가 강하게 가열돼 공기가 데워짐",
+      "상층은 매우 차서 위아래 기온차가 큼(대기 불안정)",
+      "따뜻한 공기가 빠르게 상승해 적란운이 발달",
+      "구름 속 얼음 알갱이가 상승·하강을 반복하며 층층이 자람",
+      "무거워진 얼음이 우박으로 떨어짐"
+    ],
+    "keyFactors": ["지표 가열", "상층 한기", "큰 기온감률(불안정)", "강한 상승기류"]
+  },
+  "misconceptions": [
+    { "id": "m-coldwave", "trigger": "여름인데 추워져서 얼음이 얼었다.", "correction": "지표는 더웠다. 얼음은 차가운 상공의 구름 속에서 생긴다." },
+    { "id": "m-freeze-falling", "trigger": "비가 떨어지다 얼어서 우박이 됐다.", "correction": "우박은 적란운 속 상승·하강을 반복하며 얼음층이 쌓여 자란다." }
+  ],
+  "aiTutor": {
+    "systemContext": "정답: 지표 가열 + 상층 한기로 대기 불안정 → 강한 상승기류 적란운 → 우박. 핵심 단서는 연직 기온차(상층 한기)와 지표 가열. 오개념은 (1) 한파로 얼었다 (2) 떨어지다 얼었다.",
+    "rules": [
+      "정답을 직접 말하지 말 것.",
+      "상층-지표 기온차와 지표 가열 단서를 질문으로 유도할 것.",
+      "우박 생성 위치/과정 오개념을 되짚을 것.",
+      "출력은 지정 JSON 형식만."
+    ],
+    "hintLadder": [
+      "지표와 상공의 기온을 비교해 봤어? 둘 차이가 어때?",
+      "그날 지표 기온은 평년과 비교해 어땠지?",
+      "얼음은 어디서 만들어질까 — 땅일까, 차가운 구름 속일까?"
+    ]
+  },
+  "learning": {
+    "concepts": ["대기 안정도와 불안정", "기온감률", "적란운", "우박 생성 과정"],
+    "summary": "지표가 덥고 상공이 차면 대기가 불안정해져 강한 상승기류가 생기고, 적란운 속에서 우박이 자랄 수 있다. 우박은 한여름에도 내린다.",
+    "curriculumLink": "중학교 과학 - 기권과 날씨"
+  },
+  "dataSources": [
+    { "name": "종관기상관측(ASOS) 시간자료", "portal": "data.kma.go.kr", "retrieved": "", "note": "예시값(placeholder). 1단계에서 실제 사례일로 교체." },
+    { "name": "고층기상관측(레윈존데)", "portal": "data.kma.go.kr", "retrieved": "", "note": "연직 기온(상층 한기) 단서. 1단계에서 교체." }
+  ]
+}
