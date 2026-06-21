@@ -74,13 +74,12 @@ export default function CasePlay({ caseData }) {
         setHints((prev) => [...prev, r.tutor.hint]);
         return;
       }
-      // 폴백: 클릭 횟수 순서대로 hintLadder 순환
+      // 폴백: 클릭 횟수 순서대로 hintLadder 진행 (소진되면 추가하지 않음)
       const ladder = tutorCfg.hintLadder || [];
       setHints((prev) => {
-        const fb = ladder.length
-          ? ladder[prev.length % ladder.length]
-          : "아직 열지 않은 단서를 조사해 보자.";
-        return [...prev, fb];
+        if (!ladder.length) return [...prev, "아직 열지 않은 단서를 조사해 보자."];
+        if (prev.length >= ladder.length) return prev;
+        return [...prev, ladder[prev.length]];
       });
     });
   };
