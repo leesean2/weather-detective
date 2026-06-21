@@ -2,7 +2,7 @@ import { scaleLinear, hourOf, toSegments, niceDomain } from "./svgUtils.js";
 
 // type: "temp-comparison" — 두 지점 기온 시계열 + 0°C 기준선(어는점).
 // 산간(고지대)이 0℃ 안팎, 평지가 영상이면 "같은 강수, 다른 형태"의 핵심 증거.
-const W = 460, H = 200, M = { t: 14, r: 12, b: 26, l: 30 };
+const W = 460, H = 200, M = { t: 22, r: 12, b: 26, l: 40 };
 const COLORS = ["#6fb3c9", "#e6915a"]; // 0: 산간(차가움), 1: 평지(따뜻함)
 
 export default function TempComparisonChart({ data }) {
@@ -30,6 +30,7 @@ export default function TempComparisonChart({ data }) {
           </g>
         )}
         {/* y 눈금 */}
+        <text x={M.l - 5} y={M.t - 5} textAnchor="end" className="viz__tick">°C</text>
         {[yMin, Math.round((yMin + yMax) / 2), yMax].map((t) => (
           <text key={t} x={M.l - 5} y={sy(t) + 3} textAnchor="end" className="viz__tick">{t}</text>
         ))}

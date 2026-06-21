@@ -1,7 +1,7 @@
 import { scaleLinear, hourOf, niceDomain } from "./svgUtils.js";
 
 // type: "timeseries" — 적설(cm) 선 + 강수(mm) 막대. 산간에 적설이 쌓이는 관측 사실 확인용.
-const W = 460, H = 210, M = { t: 14, r: 12, b: 26, l: 30 };
+const W = 460, H = 210, M = { t: 22, r: 12, b: 26, l: 40 };
 
 export default function PrecipSnowChart({ data }) {
   const pts = data.points.map((p) => ({ h: hourOf(p.time), rn: p.rn, sd: p.sd }));
@@ -30,6 +30,7 @@ export default function PrecipSnowChart({ data }) {
           <circle key={`s${p.h}`} cx={sx(p.h)} cy={sySd(p.sd)} r="2" fill="#e6b450" />
         ))}
         {/* y(적설) 눈금 */}
+        <text x={M.l - 5} y={M.t - 5} textAnchor="end" className="viz__tick">cm</text>
         {[0, sdMax].map((t) => (
           <text key={t} x={M.l - 5} y={sySd(t) + 3} textAnchor="end" className="viz__tick">{t}</text>
         ))}

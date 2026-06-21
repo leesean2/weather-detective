@@ -53,12 +53,13 @@ export default function CasePlay({ caseData }) {
     }).then((r) => setTutor({ loading: false, data: r.ok ? r.tutor : null }));
   };
   const handleRetry = () => { setResult(null); setSelectedId(null); setTutor({ loading: false, data: null }); };
-  const handleReset = () => { handleRetry(); setOpenedIds(new Set()); setHint({ loading: false, data: null }); };
+  const handleReset = () => { handleRetry(); setOpenedIds(new Set()); setHints([]); setHintLoading(false); };
 
   // ── 조사 중 힌트 (소크라테스) ──
-  const [hint, setHint] = useState({ loading: false, data: null });
+  const [hints, setHints] = useState([]);
+  const [hintLoading, setHintLoading] = useState(false);
   const handleHint = () => {
-    setHint({ loading: true, data: null });
+    setHintLoading(true);
     requestTutor({
       mode: "hint",
       systemContext: tutorCfg.systemContext,
@@ -68,12 +69,19 @@ export default function CasePlay({ caseData }) {
       openedClues: openedTitles,
       unopenedClues: unopenedTitles,
     }).then((r) => {
-      if (r.ok) { setHint({ loading: false, data: r.tutor.hint }); return; }
-      // 폴백: hintLadder 에서 진행도에 맞는 힌트
+      setHintLoading(false);
+      if (r.ok) {
+        setHints((prev) => [...prev, r.tutor.hint]);
+        return;
+      }
+      // 폴백: 클릭 횟수 순서대로 hintLadder 순환
       const ladder = tutorCfg.hintLadder || [];
-      const opened = openedTitles.length;
-      const fb = ladder.length ? ladder[Math.min(opened, ladder.length - 1)] : "아직 열지 않은 단서를 조사해 보자.";
-      setHint({ loading: false, data: fb });
+      setHints((prev) => {
+        const fb = ladder.length
+          ? ladder[prev.length % ladder.length]
+          : "아직 열지 않은 단서를 조사해 보자.";
+        return [...prev, fb];
+      });
     });
   };
 
@@ -117,10 +125,12 @@ export default function CasePlay({ caseData }) {
       ) : (
         <>
           <div className="hintbar">
-            <button className="btn btn--ghost btn--sm" type="button" onClick={handleHint} disabled={hint.loading}>
-              {hint.loading ? "조수 생각 중…" : "AI 조수에게 힌트 받기"}
+            <button className="btn btn--ghost btn--sm" type="button" onClick={handleHint} disabled={hintLoading}>
+              {hintLoading ? "조수 생각 중…" : hints.length === 0 ? "AI 조수에게 힌트 받기" : "힌트 더 받기"}
             </button>
-            {hint.data && <p className="hintbar__text">💡 {hint.data}</p>}
+            {hints.map((h, i) => (
+              <p key={i} className="hintbar__text">💡 {h}</p>
+            ))}
           </div>
           <HypothesisPanel
             hypotheses={caseData.hypotheses}

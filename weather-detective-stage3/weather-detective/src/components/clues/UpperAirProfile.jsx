@@ -2,7 +2,7 @@ import { scaleLinear, niceDomain } from "./svgUtils.js";
 
 // type: "upper-air" — 연직 기온 분포. y는 기압(아래=1000hPa, 위=상층), x는 기온.
 // 850hPa 기온이 영하면 떨어지는 강수가 눈 형태를 유지하는 핵심 단서.
-const W = 360, H = 230, M = { t: 16, r: 16, b: 28, l: 40 };
+const W = 360, H = 230, M = { t: 24, r: 16, b: 28, l: 40 };
 
 export default function UpperAirProfile({ data }) {
   const levels = [...data.levels].sort((a, b) => b.pressureHpa - a.pressureHpa); // 1000 → 700
@@ -50,7 +50,7 @@ export default function UpperAirProfile({ data }) {
           </text>
         )}
         <text x={(W) / 2} y={H - 8} textAnchor="middle" className="viz__tick">기온(°C) →</text>
-        <text x={12} y={M.t + 4} className="viz__tick">hPa</text>
+        <text x={M.l - 6} y={M.t - 7} textAnchor="end" className="viz__tick">hPa</text>
       </svg>
       <figcaption className="viz__legend">
         <span className="viz__sub">{data.name} · {String(data.time).slice(11)} 관측</span>
