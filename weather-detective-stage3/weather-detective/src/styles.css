@@ -264,11 +264,25 @@ button.clue--locked:disabled .clue__cta { color: var(--fog); }
 /* ── Random header ────────────────────────── */
 .random-header {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap;
+}
+.case-nav {
+  display: flex; align-items: center; gap: 10px;
 }
 .case-counter {
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--fog);
+  text-transform: uppercase; color: var(--fog); min-width: 72px; text-align: center;
 }
+.btn-nav {
+  font: inherit; font-size: 20px; font-weight: 700; line-height: 1; cursor: pointer;
+  background: var(--panel); color: var(--fog);
+  border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 6px 13px;
+  transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.btn-nav:hover { border-color: var(--fog); color: var(--text); transform: translateY(-1px); }
+.btn-nav:active { transform: translateY(0); }
+.btn-nav:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 .btn-random {
   flex-shrink: 0; align-self: flex-start;
   font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
