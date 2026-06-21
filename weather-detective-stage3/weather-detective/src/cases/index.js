@@ -7,8 +7,13 @@ import case04 from "./case-04-autumn-fog.demo.json";
 import case05 from "./case-05-east-wind-snow.demo.json";
 import case06 from "./case-06-tropical-night.demo.json";
 import case07 from "./case-07-changma-rain.demo.json";
+import case08 from "./case-08-spring-yellow-dust.demo.json";
+import case09 from "./case-09-west-coast-snow.demo.json";
+import case10 from "./case-10-siberian-cold-wave.demo.json";
+import case11 from "./case-11-spring-thunderstorm.demo.json";
+import case12 from "./case-12-typhoon-landfall.demo.json";
 
-export const cases = [case01, case02, case03, case04, case05, case06, case07].sort(
+export const cases = [case01, case02, case03, case04, case05, case06, case07, case08, case09, case10, case11, case12].sort(
   (a, b) => a.meta.difficulty - b.meta.difficulty
 );
 
