@@ -1,0 +1,84 @@
+# 기상 미스터리 탐정 (Weather Detective)
+
+이상기상 사건을 KMA 관측 데이터로 추리하는 **웹 기반 교육 게임**입니다.  
+실제 기상 사례와 데이터를 바탕으로 단서를 수집하고, 가설을 세우고, 사건을 해결하세요.
+
+🔗 **라이브 데모:** [weather-detective.vercel.app](https://weather-detective.vercel.app)
+
+## 게임 소개
+
+플레이어는 기상 탐정이 되어 실제로 발생한 이상기상 사건을 분석합니다.
+
+- **단서 수집** — 기온 변화, 강수량, 기압 분포, 상층 대기 등 관측 데이터를 단서로 열어봅니다
+- **가설 제출** — 수집한 단서를 바탕으로 이상기상의 원인 메커니즘을 추론합니다
+- **AI 튜터** — 오답 시 정답을 알려주지 않고 소크라테스식 질문으로 생각을 유도합니다
+- **사건 해결** — 인과 체인과 핵심 기상 요인을 학습하며 사건을 종결합니다
+
+### 수록 사건
+
+| # | 사건 | 난이도 |
+|---|------|--------|
+| 1 | 늦봄 산간 대설 | ★☆☆ |
+| 2 | 영동 겨울 푄 현상 | ★★☆ |
+| 3 | 여름철 우박 | ★★★ |
+
+## 기술 스택
+
+- **Frontend** — React 18 + Vite 6
+- **시각화** — 순수 SVG (기온 비교, 강수/적설, 기압 분포, 상층 대기, 풍향 나침반)
+- **AI 튜터** — OpenRouter API (서버리스 프록시 경유, 키 노출 없음)
+- **배포** — Vercel (Vite + `api/` 서버리스 함수 자동 인식)
+
+## 로컬 실행
+
+```bash
+cd weather-detective-stage3/weather-detective
+
+# 의존성 설치
+npm install
+
+# 개발 서버 시작 (http://localhost:5173)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+```
+
+> **참고:** `npm run dev`에서는 서버리스 함수가 없어 `/api/tutor` 404 → 자동으로 정적 폴백으로 동작합니다.  
+> AI 튜터까지 로컬에서 테스트하려면 `vercel dev`를 사용하세요.
+
+## AI 튜터 설정 (선택)
+
+AI 튜터 없이도 게임 전체가 정상 동작합니다. 키 미설정·네트워크 오류 시 `case JSON`의 정적 해설로 자동 대체됩니다.
+
+1. [OpenRouter](https://openrouter.ai/keys)에서 API 키 발급
+2. 환경변수 설정:
+
+```bash
+cd weather-detective-stage3/weather-detective
+cp .env.example .env
+# .env 파일에 OPENROUTER_API_KEY 입력
+```
+
+3. Vercel 배포 시 대시보드 → Settings → Environment Variables에 `OPENROUTER_API_KEY` 등록
+
+## 폴더 구조
+
+```
+weather-detective-stage3/weather-detective/
+├── api/
+│   └── tutor.js              # Vercel 서버리스 함수 (OpenRouter 프록시)
+├── pipeline/                 # KMA 데이터 파이프라인 (사례 발굴 · 케이스 생성)
+├── src/
+│   ├── cases/                # 케이스 JSON + 스키마
+│   ├── components/           # React 컴포넌트 + SVG 시각화
+│   ├── engine/               # 케이스 검증 로직
+│   └── api/                  # 프런트 튜터 호출 (실패 → 폴백)
+└── tutor/
+    ├── core.js               # 프롬프트 조립 + 응답 파싱
+    └── selftest.js           # 오프라인 튜터 로직 검증
+```
+
+## 라이선스
+
+MIT
